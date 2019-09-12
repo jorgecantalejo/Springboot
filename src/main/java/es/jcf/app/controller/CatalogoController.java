@@ -1,4 +1,4 @@
-package es.jcf.app.persistence.controller;
+package es.jcf.app.controller;
 
 import java.util.Date;
 import java.util.List;
