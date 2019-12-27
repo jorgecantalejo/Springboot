@@ -56,9 +56,9 @@ public class JPAConfig {
 	public DataSource dataSourceTest() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver");
-		dataSource.setUrl("jdbc:h2:mem:db;");
+		dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
 		dataSource.setUsername("sa");
-		dataSource.setPassword("sa");
+		dataSource.setPassword("");
 		System.out.println("Cargada base de datos de test -- h2 bbdd 'jdbc:h2:mem:db;'");
 		return dataSource;
 	}

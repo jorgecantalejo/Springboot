@@ -1,7 +1,10 @@
 package es.jcf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import es.jcf.app.persistence.model.Catalogo;
+import es.jcf.app.persistence.repository.CatalogoRepository;
 
 import java.util.Date;
 
@@ -9,9 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
-import es.jcf.app.persistence.model.Catalogo;
-import es.jcf.app.persistence.repository.CatalogoRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")
