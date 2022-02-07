@@ -2,7 +2,9 @@ package es.jcf.core.persistence.service;
 
 import java.util.List;
 
-public interface BaseService<T extends Object> {
+import es.jcf.core.persistence.model.BaseSO;
+
+public interface BaseService<T extends BaseSO> {
 
 	T save(T entity);
 

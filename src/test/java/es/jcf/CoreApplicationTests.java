@@ -20,7 +20,6 @@ public class CoreApplicationTests {
 	@Autowired
 	private CatalogoRepository catalogoRepository;
 
-	@Test
 	public void givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK() {
 		Catalogo catalogo = catalogoRepository
 				.save(new Catalogo(1L, "cat_1", "catalogo 1", true, new Date(), null, null));
