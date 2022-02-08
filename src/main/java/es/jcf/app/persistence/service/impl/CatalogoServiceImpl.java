@@ -4,11 +4,12 @@ import org.springframework.stereotype.Service;
 
 import es.jcf.app.persistence.model.Catalogo;
 import es.jcf.app.persistence.repository.CatalogoRepository;
-import es.jcf.app.persistence.service.CatalogoService;
+import es.jcf.app.persistence.service.ICatalogoService;
 import es.jcf.core.persistence.service.BaseServiceImpl;
 
+
 @Service
-public class CatalogoServiceImpl extends BaseServiceImpl<Catalogo, CatalogoRepository> implements CatalogoService {
+public class CatalogoServiceImpl extends BaseServiceImpl<Catalogo, CatalogoRepository> implements ICatalogoService {
 
 	@Override
 	public Catalogo save(Catalogo entity) {

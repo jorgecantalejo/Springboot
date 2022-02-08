@@ -3,9 +3,9 @@ package es.jcf.core.persistence.service;
 import java.util.List;
 
 import es.jcf.core.persistence.model.BaseSO;
-import es.jcf.core.persistence.repository.BaseRepository;
+import es.jcf.core.persistence.repository.IBaseRepository;
 
-public class BaseServiceImpl<T extends BaseSO, R extends BaseRepository<T>> implements BaseService<T> {
+public class BaseServiceImpl<T extends BaseSO, R extends IBaseRepository<T>> implements IBaseService<T> {
 
 	protected R repository;
 

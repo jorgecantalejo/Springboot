@@ -1,4 +1,4 @@
-package es.jcf.config;
+package es.jcf.configuration;
 
 import java.util.Properties;
 
@@ -35,22 +35,22 @@ public class JPAConfig {
 		return em;
 	}
 
-	@Bean
-	@Profile("des")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactoryDes() {
-
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setDatabase(Database.POSTGRESQL);
-		vendorAdapter.setGenerateDdl(true);
-
-		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(dataSourceDes());
-		em.setPackagesToScan("es.jcf.app.persistence");
-		em.setJpaVendorAdapter(vendorAdapter);
-		em.setJpaProperties(hibernatePropertiesPostgre());
-
-		return em;
-	}
+//	@Bean
+//	@Profile("des")
+//	public LocalContainerEntityManagerFactoryBean entityManagerFactoryDes() {
+//
+//		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//		vendorAdapter.setDatabase(Database.POSTGRESQL);
+//		vendorAdapter.setGenerateDdl(true);
+//
+//		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//		em.setDataSource(dataSourceDes());
+//		em.setPackagesToScan("es.jcf.app.persistence");
+//		em.setJpaVendorAdapter(vendorAdapter);
+//		em.setJpaProperties(hibernatePropertiesPostgre());
+//
+//		return em;
+//	}
 
 	@Bean
 	public DataSource dataSourceTest() {

@@ -1,41 +1,39 @@
 package es.jcf.core.app.controller;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.ResolvableType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-import es.jcf.app.persistence.model.Catalogo;
 import es.jcf.core.persistence.model.BaseSO;
-import es.jcf.core.persistence.service.BaseService;
-import io.swagger.models.Response;
+import es.jcf.core.persistence.service.IBaseService;
 
-public class BaseController<T extends BaseSO> {
+public class BaseController<T extends BaseSO, R extends IBaseService<T>> {
 	
 	@Autowired
 	private ApplicationContext context;
 	
-	private BaseService<T> baseService;
-
 	@GetMapping
-	public ResponseEntity<List<T>> findAll() {
-		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
+	public ResponseEntity<List<T>> findAll() throws NoSuchFieldException, SecurityException {
+		IBaseService<T> baseService = getService();
 					
 		return ResponseEntity.ok(baseService.findAll());
 	}
 	
-	@PostMapping
-	public ResponseEntity<T> save(T entity) {
-		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
-					
-		return ResponseEntity.ok(baseService.save(entity));
-	}
+//	@PostMapping
+//	public ResponseEntity<T> save(T entity) {
+//		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
+//					
+//		return ResponseEntity.ok(baseService.save(entity));
+//	}
 //	
 //	@DeleteMapping
 //	public ResponseEntity<String> delete(T entity) {
@@ -44,10 +42,23 @@ public class BaseController<T extends BaseSO> {
 //		return ResponseEntity.ok("Elemento eliminado");
 //	}
 	
-	@DeleteMapping
-	public ResponseEntity<String> delete(Long id) {
-		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
-		baseService.delete(id);		
-		return ResponseEntity.ok("Elemento eliminado");
-	}
+//	@DeleteMapping
+//	public ResponseEntity<String> delete(Long id) {
+//		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
+//		baseService.delete(id);		
+//		return ResponseEntity.ok("Elemento eliminado");
+//	}
+	
+	
+	 private IBaseService<T> getService() throws NoSuchFieldException, SecurityException {
+			
+			ResolvableType serviceType = ResolvableType.forClass(getClass().getSuperclass()).getGenerics()
+			System.out.println(serviceType);
+			ResolvableType type = serviceType.getGeneric(1);
+			System.out.println(type);
+			Class<?> aClass = type.resolve();
+			System.out.println(aClass);
+			
+			return (IBaseService<T>) context.getBean(aClass);
+		  }
 }
