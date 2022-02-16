@@ -3,23 +3,16 @@ package es.jcf.core.app.controller;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.ResolvableType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ClassUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
+import es.jcf.configuration.ApplicationContextProvider;
 import es.jcf.core.persistence.model.BaseSO;
 import es.jcf.core.persistence.service.IBaseService;
 
-public class BaseController<T extends BaseSO, R extends IBaseService<T>> {
+public class BaseController<R, T extends BaseSO, S extends IBaseService<T>> {
 	
-	@Autowired
-	private ApplicationContext context;
+	private S service;
 	
 	@GetMapping
 	public ResponseEntity<List<T>> findAll() throws NoSuchFieldException, SecurityException {
@@ -27,6 +20,7 @@ public class BaseController<T extends BaseSO, R extends IBaseService<T>> {
 					
 		return ResponseEntity.ok(baseService.findAll());
 	}
+	
 	
 //	@PostMapping
 //	public ResponseEntity<T> save(T entity) {
@@ -50,15 +44,12 @@ public class BaseController<T extends BaseSO, R extends IBaseService<T>> {
 //	}
 	
 	
-	 private IBaseService<T> getService() throws NoSuchFieldException, SecurityException {
-			
-			ResolvableType serviceType = ResolvableType.forClass(getClass().getSuperclass()).getGenerics()
-			System.out.println(serviceType);
-			ResolvableType type = serviceType.getGeneric(1);
-			System.out.println(type);
-			Class<?> aClass = type.resolve();
-			System.out.println(aClass);
-			
-			return (IBaseService<T>) context.getBean(aClass);
-		  }
+	 protected S getService() {
+		 if(service == null) {
+				Class<R> parameterType = (Class<R>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[2];
+				service = (S) ApplicationContextProvider.getBean(parameterType);
+		 }
+		 return service;
+		
+	}
 }

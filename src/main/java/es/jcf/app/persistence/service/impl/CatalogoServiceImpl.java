@@ -9,14 +9,9 @@ import es.jcf.core.persistence.service.BaseServiceImpl;
 
 
 @Service
-public class CatalogoServiceImpl extends BaseServiceImpl<Catalogo, CatalogoRepository> implements ICatalogoService {
-
-	@Override
-	public Catalogo save(Catalogo entity) {
-		return super.save(entity);
-	}
+public class CatalogoServiceImpl extends BaseServiceImpl<CatalogoRepository, Catalogo> implements ICatalogoService {
 
 	public Catalogo almacenar(String codigo) {
-		return repository.findByCodigo(codigo);
+		return ((CatalogoRepository)getRepository()).findByCodigo(codigo);
 	}
 }
