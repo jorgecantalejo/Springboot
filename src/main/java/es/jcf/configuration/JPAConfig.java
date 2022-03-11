@@ -19,58 +19,60 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class JPAConfig {
 
+//	@Bean(name = "entityManagerFactory")
+//	@Profile("local")
+//	public LocalContainerEntityManagerFactoryBean entityManagerFactoryTest() {
+//
+//		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//		vendorAdapter.setDatabase(Database.H2);
+//		vendorAdapter.setGenerateDdl(true);
+//
+//		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//		em.setDataSource(dataSourceTest());
+//		em.setPackagesToScan("es.jcf.app.persistence");
+//		em.setJpaVendorAdapter(vendorAdapter);
+//		em.setJpaProperties(hibernatePropertiesH2());
+//
+//		return em;
+//	}
+
 	@Bean(name = "entityManagerFactory")
-	public LocalContainerEntityManagerFactoryBean entityManagerFactoryTest() {
+	@Profile("des")
+	public LocalContainerEntityManagerFactoryBean entityManagerFactoryDes() {
 
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setDatabase(Database.H2);
+		vendorAdapter.setDatabase(Database.POSTGRESQL);
 		vendorAdapter.setGenerateDdl(true);
 
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(dataSourceTest());
+		em.setDataSource(dataSourceDes());
 		em.setPackagesToScan("es.jcf.app.persistence");
 		em.setJpaVendorAdapter(vendorAdapter);
-		em.setJpaProperties(hibernatePropertiesH2());
+		em.setJpaProperties(hibernatePropertiesPostgre());
 
 		return em;
 	}
 
 //	@Bean
-//	@Profile("des")
-//	public LocalContainerEntityManagerFactoryBean entityManagerFactoryDes() {
-//
-//		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//		vendorAdapter.setDatabase(Database.POSTGRESQL);
-//		vendorAdapter.setGenerateDdl(true);
-//
-//		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//		em.setDataSource(dataSourceDes());
-//		em.setPackagesToScan("es.jcf.app.persistence");
-//		em.setJpaVendorAdapter(vendorAdapter);
-//		em.setJpaProperties(hibernatePropertiesPostgre());
-//
-//		return em;
+//	@Profile("local")
+//	public DataSource dataSourceTest() {
+//		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//		dataSource.setDriverClassName("org.h2.Driver");
+//		dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
+//		dataSource.setUsername("sa");
+//		dataSource.setPassword("");
+//		System.out.println("Cargada base de datos de test -- h2 bbdd 'jdbc:h2:mem:db;'");
+//		return dataSource;
 //	}
-
-	@Bean
-	public DataSource dataSourceTest() {
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.h2.Driver");
-		dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1");
-		dataSource.setUsername("sa");
-		dataSource.setPassword("");
-		System.out.println("Cargada base de datos de test -- h2 bbdd 'jdbc:h2:mem:db;'");
-		return dataSource;
-	}
 
 	@Bean
 	@Profile("des")
 	public DataSource dataSourceDes() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName("org.hibernate.dialect.PostgreSQLDialect");
-		dataSource.setUrl("jdbc:postgresql://localhost:5432/gestion");
-		dataSource.setUsername("postgres");
-		dataSource.setPassword("JC4nt4l3j0");
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:postgresql://tyke.db.elephantsql.com:5432/mmmlhdjx");
+		dataSource.setUsername("mmmlhdjx");
+		dataSource.setPassword("G4nlGRekoloTkX564dISu0j4N9Igic4O");
 		System.out.println("Cargada base de datos de test -- h2 bbdd 'jdbc:postgresql://localhost:5432/gestion'");
 
 		return dataSource;
@@ -78,21 +80,22 @@ public class JPAConfig {
 
 	private Properties hibernatePropertiesPostgre() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		//properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		properties.setProperty("hibernate.show_sql", "true");
 		properties.setProperty("hibernate.format_sql", "true");
+		properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
 		return properties;
 	}
 
-	private Properties hibernatePropertiesH2() {
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-		properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("hibernate.format_sql", "true");
-		return properties;
-	}
+//	private Properties hibernatePropertiesH2() {
+//		Properties properties = new Properties();
+//		//properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+//		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+//		properties.setProperty("hibernate.show_sql", "true");
+//		properties.setProperty("hibernate.format_sql", "true");
+//		return properties;
+//	}
 
 	// configure entityManagerFactory
 	// configure transactionManager

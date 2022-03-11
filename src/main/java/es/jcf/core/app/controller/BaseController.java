@@ -4,7 +4,10 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import es.jcf.configuration.ApplicationContextProvider;
 import es.jcf.core.persistence.model.BaseSO;
@@ -14,34 +17,33 @@ public class BaseController<R, T extends BaseSO, S extends IBaseService<T>> {
 	
 	private S service;
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<T> find(@PathVariable long id ) {
+		return ResponseEntity.ok(getService().find(id));
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<T>> findAll() throws NoSuchFieldException, SecurityException {
-		IBaseService<T> baseService = getService();
-					
-		return ResponseEntity.ok(baseService.findAll());
+		return ResponseEntity.ok(getService().findAll());
 	}
 	
 	
-//	@PostMapping
-//	public ResponseEntity<T> save(T entity) {
-//		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
-//					
-//		return ResponseEntity.ok(baseService.save(entity));
-//	}
-//	
-//	@DeleteMapping
-//	public ResponseEntity<String> delete(T entity) {
-//		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
-//		baseService.delete(entity);		
-//		return ResponseEntity.ok("Elemento eliminado");
-//	}
+	@PostMapping
+	public ResponseEntity<T> save(T entity) {
+		return ResponseEntity.ok(getService().save(entity));
+	}
 	
-//	@DeleteMapping
-//	public ResponseEntity<String> delete(Long id) {
-//		baseService = baseService == null? context.getBean(baseService.getClass()) : baseService;
-//		baseService.delete(id);		
-//		return ResponseEntity.ok("Elemento eliminado");
-//	}
+	@DeleteMapping
+	public ResponseEntity<String> delete(T entity) {
+		getService().delete(entity);		
+		return ResponseEntity.ok("Elemento eliminado");
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> delete(@PathVariable long id) {
+		getService().delete(id);		
+		return ResponseEntity.ok("Elemento eliminado");
+	}
 	
 	
 	 protected S getService() {
